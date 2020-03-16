@@ -1,5 +1,6 @@
 from dials.array_family import flex
 import math
+import os
 
 
 def energy_intensity_for_run(run):
@@ -24,6 +25,10 @@ def filter_energy(energy, intensity, energy_range):
 
 
 def analyse(run, energy_min, energy_max):
+    import matplotlib
+
+    matplotlib.use("Agg")
+
     from matplotlib import pyplot
 
     means = []
@@ -38,7 +43,9 @@ def analyse(run, energy_min, energy_max):
 
     pyplot.plot(means)
     pyplot.plot(sorted_mean)
-    pyplot.show()
+    pyplot.xlabel("Run number")
+    pyplot.ylabel("%%age in range %d-%d" % (energy_min, energy_max))
+    pyplot.savefig("%s.png" % os.path.split(run)[-1])
 
 
 if __name__ == "__main__":
